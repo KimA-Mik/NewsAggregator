@@ -1,6 +1,6 @@
-package com.example.newsaggregator.data.rss
+package com.example.newsaggregator.data.rss.remote
 
-import com.example.newsaggregator.data.rss.dto.RssDto
+import com.example.newsaggregator.data.rss.remote.dto.RssDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 

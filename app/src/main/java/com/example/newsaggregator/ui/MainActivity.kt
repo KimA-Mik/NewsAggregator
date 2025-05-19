@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.newsaggregator.data.rss.RssFeed
+import com.example.newsaggregator.data.rss.remote.RssFeed
 import com.example.newsaggregator.ui.theme.NewsAggregatorTheme
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.coroutines.launch

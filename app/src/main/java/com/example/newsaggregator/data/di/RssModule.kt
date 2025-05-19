@@ -1,8 +1,10 @@
 package com.example.newsaggregator.data.di
 
+import com.example.newsaggregator.data.rss.RssRepositoryImpl
 import com.example.newsaggregator.data.rss.dataSource.RemoteRssDataSource
 import com.example.newsaggregator.data.rss.dataSource.RetrofitRssDataSource
 import com.example.newsaggregator.data.rss.remote.RssFeed
+import com.example.newsaggregator.domain.rss.RssRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Binds
 import dagger.Module
@@ -31,10 +33,19 @@ object RssModule {
     @Provides
     @Singleton
     fun remoteRssDataSource(rssFeed: RssFeed) = RetrofitRssDataSource(rssFeed)
+
+    @Provides
+    @Singleton
+    fun rssRepository(remoteRssDataSource: RemoteRssDataSource) =
+        RssRepositoryImpl(remoteRssDataSource)
 }
 
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class RssBindModule {
     @Binds
     abstract fun bindRemoteRssDataSource(retrofitRssDataSource: RetrofitRssDataSource): RemoteRssDataSource
+
+    @Binds
+    abstract fun bindRssRepository(rssRepositoryIml: RssRepositoryImpl): RssRepository
 }

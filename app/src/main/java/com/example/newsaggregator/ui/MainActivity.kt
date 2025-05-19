@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.newsaggregator.data.rss.remote.RssFeed
 import com.example.newsaggregator.ui.theme.NewsAggregatorTheme
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import nl.adaptivity.xmlutil.serialization.XML
 import okhttp3.MediaType
@@ -32,6 +33,7 @@ private val retrofit = Retrofit.Builder()
 
 private val guardian = retrofit.create(RssFeed::class.java)
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

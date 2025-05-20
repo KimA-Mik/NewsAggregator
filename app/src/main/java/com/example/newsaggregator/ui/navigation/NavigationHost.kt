@@ -12,7 +12,7 @@ import com.example.newsaggregator.ui.news.list.NewsListScreenRoot
 fun NavigationHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = SimpleGraph.ROOT
+        startDestination = SimpleGraph.ROUTE
     ) {
         simpleGraph()
     }

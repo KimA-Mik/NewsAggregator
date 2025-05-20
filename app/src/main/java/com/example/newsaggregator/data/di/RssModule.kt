@@ -15,6 +15,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import nl.adaptivity.xmlutil.serialization.XML
 import okhttp3.MediaType
@@ -35,32 +36,32 @@ object RssModule {
         ).build()
         .create(RssFeed::class.java)
 
-    @Provides
-    @Singleton
-    fun remoteRssDataSource(rssFeed: RssFeed) = RetrofitRssDataSource(rssFeed)
+//    @Provides
+//    @Singleton
+//    fun remoteRssDataSource(rssFeed: RssFeed) = RetrofitRssDataSource(rssFeed)
+//
+//    @Provides
+//    @Singleton
+//    fun rssRepository(
+//        remoteRssDataSource: RemoteRssDataSource,
+//        localRssCacheDataSource: LocalRssCacheDataSource
+//    ) = RssRepositoryImpl(
+//        remoteRssDataSource = remoteRssDataSource,
+//        localRssCacheDataSource = localRssCacheDataSource
+//    )
 
     @Provides
     @Singleton
-    fun rssRepository(
-        remoteRssDataSource: RemoteRssDataSource,
-        localRssCacheDataSource: LocalRssCacheDataSource
-    ) = RssRepositoryImpl(
-        remoteRssDataSource = remoteRssDataSource,
-        localRssCacheDataSource = localRssCacheDataSource
-    )
-
-    @Provides
-    @Singleton
-    fun database(context: Context): Database = Room
+    fun database(@ApplicationContext context: Context): Database = Room
         .databaseBuilder(
             context,
             Database::class.java,
             Database.NAME
         ).build()
 
-    @Provides
-    @Singleton
-    fun localRssCacheDataSource(database: Database) = RoomRssCacheDataSource(database)
+//    @Provides
+//    @Singleton
+//    fun localRssCacheDataSource(database: Database) = RoomRssCacheDataSource(database)
 }
 
 @Module

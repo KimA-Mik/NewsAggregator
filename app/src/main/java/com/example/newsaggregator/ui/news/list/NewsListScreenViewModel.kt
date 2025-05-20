@@ -1,11 +1,14 @@
 package com.example.newsaggregator.ui.news.list
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsaggregator.domain.rss.model.RssFeedItem
 import com.example.newsaggregator.domain.rss.usecase.GetLatestRssFeedUseCase
 import com.example.newsaggregator.ui.news.list.event.NewsListUiEvent
 import com.example.newsaggregator.ui.util.UiEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,18 +18,21 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Stable
+@HiltViewModel
 class NewsListScreenViewModel @Inject constructor(
-    private val loadRssFeed: GetLatestRssFeedUseCase
+    private val loadRssFeed: GetLatestRssFeedUseCase,
 ) : ViewModel() {
-    private val rawFeed = MutableStateFlow(RssFeedItem.default())
-    private val loading = MutableStateFlow(false)
-
-    private val _uiEvent = MutableStateFlow(UiEvent<NewsListUiEvent>(null))
-    val uiEvent = _uiEvent.asStateFlow()
-
     init {
-        viewModelScope.launch { launchCollection() }
+        viewModelScope.launch(Dispatchers.IO) { launchCollection() }
     }
+
+    private val rawFeed = MutableStateFlow(RssFeedItem.default())
+
+    private val loading = MutableStateFlow(false)
+    private val _uiEvent = MutableStateFlow(UiEvent<NewsListUiEvent>(null))
+
+    val uiEvent = _uiEvent.asStateFlow()
 
     private suspend fun launchCollection() = loadRssFeed().collect { res ->
         when (res) {

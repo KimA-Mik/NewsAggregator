@@ -20,14 +20,17 @@ class RssRepositoryImpl @Inject constructor(
     private val localRssCacheDataSource: LocalRssCacheDataSource
 ) : RssRepository {
     override suspend fun fetchFreshFeed(): CustomResult<RssFeedItem, CommonError> = try {
-        when (val result = remoteRssDataSource.getGuardianRss().toRssFeedItem()) {
+        when (val result = remoteRssDataSource
+            .getGuardianRss()
+            .toRssFeedItem()) {
             null -> CustomResult.Error(CommonError.DATA_ERROR)
             else -> {
                 localRssCacheDataSource.insertFeed(result.toEntity())
                 CustomResult.Success(result)
             }
         }
-    } catch (_: IOException) {
+    } catch (e: IOException) {
+        Log.d(TAG, e.toString())
         CustomResult.Error(CommonError.NO_INTERNET)
     } catch (e: Exception) {
         Log.d(TAG, e.toString())

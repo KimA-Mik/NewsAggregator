@@ -1,5 +1,6 @@
 package com.example.newsaggregator.data.rss
 
+import android.util.Log
 import com.example.newsaggregator.data.rss.datasource.LocalRssCacheDataSource
 import com.example.newsaggregator.data.rss.datasource.RemoteRssDataSource
 import com.example.newsaggregator.data.rss.local.mappers.toEntity
@@ -28,10 +29,15 @@ class RssRepositoryImpl @Inject constructor(
         }
     } catch (_: IOException) {
         CustomResult.Error(CommonError.NO_INTERNET)
-    } catch (_: Exception) {
+    } catch (e: Exception) {
+        Log.d(TAG, e.toString())
         CustomResult.Error(CommonError.UNKNOWN_ERROR)
     }
 
     override fun getCachedFeed(): Flow<RssFeedItem?> =
         localRssCacheDataSource.getLatestFeed().map { it?.toItem() }
+
+    companion object {
+        private const val TAG = "RssRepositoryImpl"
+    }
 }

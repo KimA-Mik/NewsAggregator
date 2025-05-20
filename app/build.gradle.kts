@@ -90,8 +90,8 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     // navigation
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.navigation.compose)
 
     // coroutine
     implementation(libs.kotlinx.coroutines.core)

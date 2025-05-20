@@ -1,4 +1,4 @@
-package com.example.newsaggregator.data.rss.dataSource
+package com.example.newsaggregator.data.rss.datasource
 
 import com.example.newsaggregator.data.rss.remote.RssFeed
 import javax.inject.Inject

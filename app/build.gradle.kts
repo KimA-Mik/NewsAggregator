@@ -96,4 +96,7 @@ dependencies {
     // coroutine
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+
+    //Json serialization
+    implementation(libs.kotlinx.serialization.json)
 }

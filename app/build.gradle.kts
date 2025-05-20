@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.room)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.androidx.navigation.safeargs)
+//    alias(libs.plugins.androidx.navigation.safeargs)
     alias(libs.plugins.ksp)
 }
 
@@ -45,6 +45,9 @@ android {
     room {
         schemaDirectory("$projectDir/schemas")
     }
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {
@@ -78,7 +81,7 @@ dependencies {
 
     // room
     implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
+//    annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 

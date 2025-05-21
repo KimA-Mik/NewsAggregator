@@ -6,27 +6,38 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.example.newsaggregator.ui.news.list.NewsListScreenRoot
+import com.example.newsaggregator.ui.news.view.NewsViewScreenRoot
+import kotlinx.serialization.Serializable
 
 @Composable
 fun NavigationHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = SimpleGraph.ROUTE
+        startDestination = SimpleGraph
     ) {
         simpleGraph()
     }
 }
 
-fun NavGraphBuilder.simpleGraph() {
-    navigation(startDestination = SimpleGraph.ROOT, route = SimpleGraph.ROUTE) {
-        composable(SimpleGraph.ROOT) {
-            NewsListScreenRoot()
-        }
+fun NavGraphBuilder.simpleGraph() = navigation<SimpleGraph>(SimpleGraph.Root) {
+    composable<SimpleGraph.Root> {
+        NewsListScreenRoot()
+    }
+
+    composable<SimpleGraph.NewsDestination> {
+        val route: SimpleGraph.NewsDestination = it.toRoute()
+        NewsViewScreenRoot(title = route.title, url = route.url)
     }
 }
 
+
+@Serializable
 object SimpleGraph {
-    const val ROUTE = "simple_graph"
-    const val ROOT = "news_feed"
+    @Serializable
+    data object Root
+
+    @Serializable
+    data class NewsDestination(val title: String, val url: String)
 }

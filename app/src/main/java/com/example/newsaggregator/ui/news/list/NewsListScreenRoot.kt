@@ -1,5 +1,6 @@
 package com.example.newsaggregator.ui.news.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,8 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.newsaggregator.R
+import com.example.newsaggregator.ui.navigation.SimpleGraph
 import com.example.newsaggregator.ui.news.list.event.NewsListUiEvent
 import com.example.newsaggregator.ui.news.list.event.NewsListUserEvent
+import com.example.newsaggregator.ui.util.LocalNavController
 import com.example.newsaggregator.ui.util.LocalSnackbarHostState
 import com.example.newsaggregator.ui.util.UiEvent
 import kotlinx.coroutines.launch
@@ -58,6 +61,7 @@ fun NewsListScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    val navController = LocalNavController.current
 
     LaunchedEffect(uiEvent) {
         uiEvent.consume { event ->
@@ -68,6 +72,10 @@ fun NewsListScreen(
 
                 NewsListUiEvent.UnknownLoadingError -> coroutineScope.launch {
                     snackbarHostState.showSnackbar(message = context.getString(R.string.snackbar_message_unknown_error))
+                }
+
+                is NewsListUiEvent.OpenNews -> {
+                    navController.navigate(SimpleGraph.NewsDestination(event.title, event.url))
                 }
             }
         }
@@ -111,7 +119,9 @@ fun NewsListScreenContent(
                 items = state.rssFeed.items,
                 key = { it.guid }
             ) {
-                Text(it.title)
+                Text(
+                    it.title,
+                    modifier = Modifier.clickable { onEvent(NewsListUserEvent.OpenNews(it.guid)) })
             }
         }
     }

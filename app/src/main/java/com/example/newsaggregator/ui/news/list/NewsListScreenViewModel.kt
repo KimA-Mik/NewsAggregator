@@ -61,7 +61,13 @@ class NewsListScreenViewModel @Inject constructor(
     fun onEvent(event: NewsListUserEvent) {
         when (event) {
             NewsListUserEvent.RefreshFeed -> onRefreshFeed()
+            is NewsListUserEvent.OpenNews -> onOpenNews(event.guid)
         }
+    }
+
+    private fun onOpenNews(guid: String) {
+        val news = rawFeed.value.items.find { it.guid == guid } ?: return
+        _uiEvent.value = UiEvent(NewsListUiEvent.OpenNews(news.title, news.link))
     }
 
     private fun onRefreshFeed() = viewModelScope.launch {

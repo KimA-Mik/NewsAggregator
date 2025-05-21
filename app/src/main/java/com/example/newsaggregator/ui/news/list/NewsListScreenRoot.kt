@@ -4,38 +4,106 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.newsaggregator.R
+import com.example.newsaggregator.ui.news.list.event.NewsListUiEvent
+import com.example.newsaggregator.ui.util.LocalSnackbarHostState
+import com.example.newsaggregator.ui.util.UiEvent
+import kotlinx.coroutines.launch
 
 @Composable
 fun NewsListScreenRoot(modifier: Modifier = Modifier) {
     val viewModel: NewsListScreenViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-
-    NewsListScreen(state = state)
+    val uiEvent by viewModel.uiEvent.collectAsStateWithLifecycle()
+    NewsListScreen(
+        state = state,
+        uiEvent = uiEvent,
+        modifier = modifier
+    )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsListScreen(
     state: NewsListScreenState,
+    uiEvent: UiEvent<NewsListUiEvent>,
     modifier: Modifier = Modifier
 ) {
+    val snackbarHostState = LocalSnackbarHostState.current
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
-    Scaffold(modifier = modifier) { padding ->
-        LazyColumn(
-            modifier = Modifier.padding(padding),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(state.rssFeed.items) {
-                Text(it.title)
+    LaunchedEffect(uiEvent) {
+        uiEvent.consume { event ->
+            when (event) {
+                NewsListUiEvent.NoInternetConnection -> coroutineScope.launch {
+                    snackbarHostState.showSnackbar(message = context.getString(R.string.snackbar_message_no_internet_connection))
+                }
+
+                NewsListUiEvent.UnknownLoadingError -> coroutineScope.launch {
+                    snackbarHostState.showSnackbar(message = context.getString(R.string.snackbar_message_unknown_error))
+                }
             }
         }
     }
 
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.title_news)) },
+                scrollBehavior = scrollBehavior
+            )
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }) { padding ->
+        NewsListScreenContent(
+            state = state,
+            modifier = Modifier
+                .padding(padding)
+                .nestedScroll(scrollBehavior.nestedScrollConnection)
+        )
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+fun NewsListScreenContent(
+    state: NewsListScreenState,
+    modifier: Modifier = Modifier
+) {
+    PullToRefreshBox(
+        isRefreshing = state.isLoading,
+        onRefresh = {},
+        modifier = modifier
+    ) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(
+                items = state.rssFeed.items,
+                key = { it.guid }
+            ) {
+                Text(it.title)
+            }
+        }
+    }
 }

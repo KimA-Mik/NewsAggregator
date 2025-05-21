@@ -36,20 +36,6 @@ object RssModule {
         ).build()
         .create(RssFeed::class.java)
 
-//    @Provides
-//    @Singleton
-//    fun remoteRssDataSource(rssFeed: RssFeed) = RetrofitRssDataSource(rssFeed)
-//
-//    @Provides
-//    @Singleton
-//    fun rssRepository(
-//        remoteRssDataSource: RemoteRssDataSource,
-//        localRssCacheDataSource: LocalRssCacheDataSource
-//    ) = RssRepositoryImpl(
-//        remoteRssDataSource = remoteRssDataSource,
-//        localRssCacheDataSource = localRssCacheDataSource
-//    )
-
     @Provides
     @Singleton
     fun database(@ApplicationContext context: Context): Database = Room
@@ -58,10 +44,6 @@ object RssModule {
             Database::class.java,
             Database.NAME
         ).build()
-
-//    @Provides
-//    @Singleton
-//    fun localRssCacheDataSource(database: Database) = RoomRssCacheDataSource(database)
 }
 
 @Module

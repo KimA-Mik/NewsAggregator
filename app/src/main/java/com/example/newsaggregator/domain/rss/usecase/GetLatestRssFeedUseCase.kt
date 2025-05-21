@@ -16,7 +16,7 @@ class GetLatestRssFeedUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<Result> {
         val loaded = MutableStateFlow(false)
-        val localFeed = combine(repository.getCachedFeed(), loaded) { feed, loaded ->
+        val localFeed = combine(repository.subscribeToLastCachedFeed(), loaded) { feed, loaded ->
             when (feed) {
                 null -> if (loaded) {
                     Result.UnableToLoad

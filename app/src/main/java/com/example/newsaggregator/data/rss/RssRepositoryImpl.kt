@@ -41,8 +41,14 @@ class RssRepositoryImpl @Inject constructor(
         CustomResult.Error(CommonError.UNKNOWN_ERROR)
     }
 
-    override fun getCachedFeed(): Flow<RssFeedItem?> =
+    override fun subscribeToLastCachedFeed(): Flow<RssFeedItem?> =
         localRssCacheDataSource.getLatestFeed().map { it?.toItem() }
+
+    override suspend fun getCachedFeedsIds(): List<Long> =
+        localRssCacheDataSource.getAllCachedFeeds()
+
+    override suspend fun deleteFeeds(feeds: List<Long>) =
+        localRssCacheDataSource.deleteFeedsTransaction(feeds)
 
     companion object {
         private const val TAG = "RssRepositoryImpl"

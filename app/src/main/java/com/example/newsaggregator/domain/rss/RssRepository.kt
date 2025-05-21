@@ -7,5 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface RssRepository {
     suspend fun fetchFreshFeed(): CustomResult<RssFeedItem, CommonError>
-    fun getCachedFeed(): Flow<RssFeedItem?>
+    fun subscribeToLastCachedFeed(): Flow<RssFeedItem?>
+    suspend fun getCachedFeedsIds(): List<Long>
+    suspend fun deleteFeeds(feeds: List<Long>)
 }

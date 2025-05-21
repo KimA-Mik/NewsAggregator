@@ -14,8 +14,8 @@ import javax.inject.Inject
 class GetLatestRssFeedUseCase @Inject constructor(
     private val repository: RssRepository
 ) {
-    private val loaded = MutableStateFlow(false)
     operator fun invoke(): Flow<Result> {
+        val loaded = MutableStateFlow(false)
         val localFeed = combine(repository.getCachedFeed(), loaded) { feed, loaded ->
             when (feed) {
                 null -> if (loaded) {

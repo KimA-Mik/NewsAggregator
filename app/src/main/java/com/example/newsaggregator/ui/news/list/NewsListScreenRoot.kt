@@ -14,6 +14,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -24,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.newsaggregator.R
 import com.example.newsaggregator.ui.news.list.event.NewsListUiEvent
+import com.example.newsaggregator.ui.news.list.event.NewsListUserEvent
 import com.example.newsaggregator.ui.util.LocalSnackbarHostState
 import com.example.newsaggregator.ui.util.UiEvent
 import kotlinx.coroutines.launch
@@ -33,9 +35,13 @@ fun NewsListScreenRoot(modifier: Modifier = Modifier) {
     val viewModel: NewsListScreenViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
     val uiEvent by viewModel.uiEvent.collectAsStateWithLifecycle()
+    val onEvent = remember<(NewsListUserEvent) -> Unit> {
+        { viewModel.onEvent(it) }
+    }
     NewsListScreen(
         state = state,
         uiEvent = uiEvent,
+        onEvent = onEvent,
         modifier = modifier
     )
 }
@@ -45,6 +51,7 @@ fun NewsListScreenRoot(modifier: Modifier = Modifier) {
 fun NewsListScreen(
     state: NewsListScreenState,
     uiEvent: UiEvent<NewsListUiEvent>,
+    onEvent: (NewsListUserEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val snackbarHostState = LocalSnackbarHostState.current
@@ -77,6 +84,7 @@ fun NewsListScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) }) { padding ->
         NewsListScreenContent(
             state = state,
+            onEvent = onEvent,
             modifier = Modifier
                 .padding(padding)
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
@@ -88,11 +96,12 @@ fun NewsListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 fun NewsListScreenContent(
     state: NewsListScreenState,
+    onEvent: (NewsListUserEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     PullToRefreshBox(
         isRefreshing = state.isLoading,
-        onRefresh = {},
+        onRefresh = { onEvent(NewsListUserEvent.RefreshFeed) },
         modifier = modifier
     ) {
         LazyColumn(

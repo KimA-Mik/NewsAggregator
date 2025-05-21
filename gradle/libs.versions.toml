@@ -17,7 +17,7 @@ xmlUtil = "0.91.0"
 room = "2.7.1"
 hilt-version = "2.56"
 ksp-version = "2.1.20-1.0.31"
-coilVersion = "1.4.0"
+coilVersion = "3.2.0"
 kotlinxCoroutines = "1.10.1"
 
 [libraries]
@@ -40,7 +40,8 @@ retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofi
 retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverter" }
 xmlutil-core = { group = "io.github.pdvrieze.xmlutil", name = "core", version.ref = "xmlUtil" }
 xmlutil-serialization = { group = "io.github.pdvrieze.xmlutil", name = "serialization", version.ref = "xmlUtil" }
-coil = { group = "io.coil-kt", name = "coil", version.ref = "coilVersion" }
+coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coilVersion" }
+coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coilVersion" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt-version" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt-version" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }

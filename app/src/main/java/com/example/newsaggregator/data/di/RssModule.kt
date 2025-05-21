@@ -18,7 +18,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import nl.adaptivity.xmlutil.serialization.XML
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -31,7 +31,7 @@ object RssModule {
         .baseUrl(RemoteRssDataSource.GUARDIAN_BASE_URL)
         .addConverterFactory(
             XML.asConverterFactory(
-                MediaType.get("application/xml; charset=UTF8")
+                "application/xml; charset=UTF8".toMediaType()
             )
         ).build()
         .create(RssFeed::class.java)

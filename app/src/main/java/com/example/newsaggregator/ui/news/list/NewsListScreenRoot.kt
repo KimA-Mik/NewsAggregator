@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.newsaggregator.R
 import com.example.newsaggregator.ui.navigation.SimpleGraph
+import com.example.newsaggregator.ui.news.list.components.NewsListItem
 import com.example.newsaggregator.ui.news.list.event.NewsListUiEvent
 import com.example.newsaggregator.ui.news.list.event.NewsListUserEvent
 import com.example.newsaggregator.ui.util.LocalNavController
@@ -119,9 +120,12 @@ fun NewsListScreenContent(
                 items = state.rssFeed.items,
                 key = { it.guid }
             ) {
-                Text(
-                    it.title,
-                    modifier = Modifier.clickable { onEvent(NewsListUserEvent.OpenNews(it.guid)) })
+                NewsListItem(
+                    item = it,
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .clickable { onEvent(NewsListUserEvent.OpenNews(it.guid)) }
+                )
             }
         }
     }

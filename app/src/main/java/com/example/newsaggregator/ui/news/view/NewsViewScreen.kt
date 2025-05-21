@@ -26,8 +26,7 @@ fun NewsViewScreenRoot(
         }) { padding ->
         BasicWebView(
             url = url,
-            modifier = Modifier
-                .padding(padding)
+            modifier = Modifier.padding(padding)
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.util
+package com.example.newsaggregator.presentation.ui.util
 
 data class UiEvent<T>(
     private val value: T?,

@@ -1,10 +1,11 @@
-package com.example.newsaggregator.ui.util
+package com.example.newsaggregator.presentation.ui.util
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.compose.rememberNavController
-import com.example.newsaggregator.ui.theme.NewsAggregatorTheme
+import com.example.newsaggregator.presentation.ui.theme.NewsAggregatorTheme
 
 @Composable
 fun NAPreview(
@@ -18,6 +19,8 @@ fun NAPreview(
     CompositionLocalProvider(
         LocalNavController provides rememberNavController()
     ) {
-        content()
+        Surface {
+            content()
+        }
     }
 }

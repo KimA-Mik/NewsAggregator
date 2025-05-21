@@ -85,13 +85,15 @@ dependencies {
 //    annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.hilt.work)
+
 
     // hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
     // navigation
-    implementation(libs.hilt.navigation.compose)
     implementation(libs.navigation.compose)
 
     // coroutine
@@ -100,4 +102,8 @@ dependencies {
 
     //Json serialization
     implementation(libs.kotlinx.serialization.json)
+
+    //Work manager
+    implementation(libs.androidx.work.runtime.ktx)
+
 }

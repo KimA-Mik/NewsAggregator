@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.navigation
+package com.example.newsaggregator.presentation.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
@@ -7,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
-import com.example.newsaggregator.ui.news.list.NewsListScreenRoot
-import com.example.newsaggregator.ui.news.view.NewsViewScreenRoot
+import com.example.newsaggregator.presentation.ui.news.list.NewsListScreenRoot
+import com.example.newsaggregator.presentation.ui.news.view.NewsViewScreenRoot
 import kotlinx.serialization.Serializable
 
 @Composable

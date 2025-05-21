@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.components
+package com.example.newsaggregator.presentation.ui.components
 
 import android.os.Bundle
 import android.view.ViewGroup

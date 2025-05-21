@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.news.list
+package com.example.newsaggregator.presentation.ui.news.list
 
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.newsaggregator.domain.rss.model.RssFeedItem
 import com.example.newsaggregator.domain.rss.usecase.GetLatestRssFeedUseCase
 import com.example.newsaggregator.domain.rss.usecase.RefreshFeedUseCase
-import com.example.newsaggregator.ui.news.list.event.NewsListUiEvent
-import com.example.newsaggregator.ui.news.list.event.NewsListUserEvent
-import com.example.newsaggregator.ui.util.UiEvent
+import com.example.newsaggregator.presentation.ui.news.list.event.NewsListUiEvent
+import com.example.newsaggregator.presentation.ui.news.list.event.NewsListUserEvent
+import com.example.newsaggregator.presentation.ui.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

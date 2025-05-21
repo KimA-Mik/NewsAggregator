@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.util
+package com.example.newsaggregator.presentation.ui.util
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.compositionLocalOf

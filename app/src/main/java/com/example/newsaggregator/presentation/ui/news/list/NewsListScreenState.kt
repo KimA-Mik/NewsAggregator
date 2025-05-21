@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.news.list
+package com.example.newsaggregator.presentation.ui.news.list
 
 import com.example.newsaggregator.domain.rss.model.RssFeedItem
 

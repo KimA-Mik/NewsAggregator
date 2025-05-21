@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.news.view
+package com.example.newsaggregator.presentation.ui.news.view
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -12,8 +12,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import com.example.newsaggregator.ui.components.BasicWebView
-import com.example.newsaggregator.ui.util.LocalNavController
+import com.example.newsaggregator.presentation.ui.components.BasicWebView
+import com.example.newsaggregator.presentation.ui.util.LocalNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

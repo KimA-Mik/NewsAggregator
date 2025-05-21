@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.news.list.event
+package com.example.newsaggregator.presentation.ui.news.list.event
 
 sealed interface NewsListUiEvent {
     data object NoInternetConnection : NewsListUiEvent

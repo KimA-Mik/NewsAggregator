@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.news.list.components
+package com.example.newsaggregator.presentation.ui.news.list.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.newsaggregator.domain.rss.model.NewsItem
-import com.example.newsaggregator.ui.util.NAPreview
+import com.example.newsaggregator.presentation.ui.util.NAPreview
 import java.text.DateFormat.getDateTimeInstance
 
 

@@ -1,4 +1,4 @@
-package com.example.newsaggregator.ui.news.list
+package com.example.newsaggregator.presentation.ui.news.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,13 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.newsaggregator.R
-import com.example.newsaggregator.ui.navigation.SimpleGraph
-import com.example.newsaggregator.ui.news.list.components.NewsListItem
-import com.example.newsaggregator.ui.news.list.event.NewsListUiEvent
-import com.example.newsaggregator.ui.news.list.event.NewsListUserEvent
-import com.example.newsaggregator.ui.util.LocalNavController
-import com.example.newsaggregator.ui.util.LocalSnackbarHostState
-import com.example.newsaggregator.ui.util.UiEvent
+import com.example.newsaggregator.presentation.ui.navigation.SimpleGraph
+import com.example.newsaggregator.presentation.ui.news.list.components.NewsListItem
+import com.example.newsaggregator.presentation.ui.news.list.event.NewsListUiEvent
+import com.example.newsaggregator.presentation.ui.news.list.event.NewsListUserEvent
+import com.example.newsaggregator.presentation.ui.util.LocalNavController
+import com.example.newsaggregator.presentation.ui.util.LocalSnackbarHostState
+import com.example.newsaggregator.presentation.ui.util.UiEvent
 import kotlinx.coroutines.launch
 
 @Composable

@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.room)
     alias(libs.plugins.hilt)
-//    alias(libs.plugins.androidx.navigation.safeargs)
     alias(libs.plugins.ksp)
 }
 

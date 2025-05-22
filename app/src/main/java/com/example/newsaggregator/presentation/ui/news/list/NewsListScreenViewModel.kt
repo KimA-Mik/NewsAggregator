@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -90,7 +91,9 @@ class NewsListScreenViewModel @Inject constructor(
             categories = categories,
             controlSheet = controlSheet
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), NewsListScreenState())
+    }
+        .flowOn(Dispatchers.Default)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), NewsListScreenState())
 
     fun onEvent(event: NewsListUserEvent) {
         when (event) {

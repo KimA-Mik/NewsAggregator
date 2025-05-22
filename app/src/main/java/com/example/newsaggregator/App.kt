@@ -28,7 +28,6 @@ class App : Application(), Configuration.Provider {
         registerWorkers()
     }
 
-
     private fun registerWorkers() {
         val workManager = WorkManager.getInstance(this)
 

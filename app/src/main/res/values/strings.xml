@@ -4,4 +4,6 @@
     <string name="snackbar_message_no_internet_connection">No internet connection</string>
     <string name="snackbar_message_unknown_error">Unknown error</string>
     <string name="title_categories">Categories</string>
+    <string name="label_unable_to_match_categories">Unable to match categories</string>
+    <string name="label_unable_to_load">Unable to load</string>
 </resources>

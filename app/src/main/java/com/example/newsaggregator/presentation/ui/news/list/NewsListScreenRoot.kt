@@ -2,6 +2,7 @@ package com.example.newsaggregator.presentation.ui.news.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
@@ -22,11 +24,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastAny
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.newsaggregator.R
@@ -35,6 +39,7 @@ import com.example.newsaggregator.presentation.ui.news.list.components.ControlSh
 import com.example.newsaggregator.presentation.ui.news.list.components.NewsListItem
 import com.example.newsaggregator.presentation.ui.news.list.event.NewsListUiEvent
 import com.example.newsaggregator.presentation.ui.news.list.event.NewsListUserEvent
+import com.example.newsaggregator.presentation.ui.news.list.model.DisplayCategory
 import com.example.newsaggregator.presentation.ui.util.LocalNavController
 import com.example.newsaggregator.presentation.ui.util.LocalSnackbarHostState
 import com.example.newsaggregator.presentation.ui.util.UiEvent
@@ -133,23 +138,59 @@ fun NewsListScreenContent(
         onRefresh = { onEvent(NewsListUserEvent.RefreshFeed) },
         modifier = modifier
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(
-                items = state.displayNews,
-                key = { it.guid }
-            ) {
-                val click =
-                    remember { Modifier.clickable { onEvent(NewsListUserEvent.OpenNews(it.guid)) } }
-                NewsListItem(
-                    item = it,
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .then(click)
-                )
-            }
+        val bodyModifier = Modifier.fillMaxSize()
+        if (state.displayNews.isEmpty() && !state.isLoading) {
+            EmptyListLabel(
+                categories = state.categories,
+                modifier = bodyModifier
+            )
+        } else {
+            NewsList(state = state, onEvent = onEvent, modifier = bodyModifier)
         }
     }
+}
+
+@Composable
+private fun NewsList(
+    state: NewsListScreenState,
+    onEvent: (NewsListUserEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(
+            items = state.displayNews,
+            key = { it.guid }
+        ) {
+            val click =
+                remember { Modifier.clickable { onEvent(NewsListUserEvent.OpenNews(it.guid)) } }
+            NewsListItem(
+                item = it,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .then(click)
+            )
+        }
+    }
+}
+
+@Composable
+private fun EmptyListLabel(
+    categories: List<DisplayCategory>,
+    modifier: Modifier = Modifier
+) = Box(
+    modifier = modifier,
+    contentAlignment = Alignment.Center
+) {
+    val anyCardsSelected = categories.fastAny { it.selected }
+    Text(
+        text = if (anyCardsSelected) {
+            stringResource(R.string.label_unable_to_match_categories)
+        } else {
+            stringResource(R.string.label_unable_to_load)
+        },
+        style = MaterialTheme.typography.labelLarge
+    )
 }

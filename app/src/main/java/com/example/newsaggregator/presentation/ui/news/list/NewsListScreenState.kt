@@ -7,7 +7,7 @@ import com.example.newsaggregator.presentation.ui.news.list.model.DisplayCategor
 @Immutable
 data class NewsListScreenState(
     val displayNews: List<NewsItem> = emptyList(),
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val categories: List<DisplayCategory> = emptyList(),
     val controlSheet: Boolean = false
 )

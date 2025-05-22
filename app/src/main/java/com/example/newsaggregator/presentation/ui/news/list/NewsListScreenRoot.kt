@@ -98,6 +98,7 @@ fun NewsListScreen(
             categories = state.categories,
             onDismissRequest = { onEvent(NewsListUserEvent.DismissControlSheet) },
             onSelectChip = { onEvent(NewsListUserEvent.SelectCategory(it)) },
+            onClearCategories = { onEvent(NewsListUserEvent.ClearSelectedCategories) }
         )
     }
 

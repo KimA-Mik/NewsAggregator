@@ -6,4 +6,5 @@ sealed interface NewsListUserEvent {
     data object OpenControlSheet : NewsListUserEvent
     data object DismissControlSheet : NewsListUserEvent
     data class SelectCategory(val category: String) : NewsListUserEvent
+    data object ClearSelectedCategories : NewsListUserEvent
 }

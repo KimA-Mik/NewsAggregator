@@ -102,6 +102,7 @@ class NewsListScreenViewModel @Inject constructor(
             NewsListUserEvent.OpenControlSheet -> onOpenControlSheet()
             NewsListUserEvent.DismissControlSheet -> onDismissControlSheet()
             is NewsListUserEvent.SelectCategory -> onSelectCategory(event.category)
+            NewsListUserEvent.ClearSelectedCategories -> onClearSelectedCategories()
         }
     }
 
@@ -144,5 +145,9 @@ class NewsListScreenViewModel @Inject constructor(
             set.add(category)
         }
         selectedCategories.value = set
+    }
+
+    private fun onClearSelectedCategories() {
+        selectedCategories.value = emptySet()
     }
 }

@@ -28,6 +28,7 @@ fun BasicWebView(
         update = {
             if (bundle.isEmpty) {
                 it.loadUrl(url)
+                it.settings.javaScriptEnabled = true
             } else {
                 it.restoreState(bundle)
             }

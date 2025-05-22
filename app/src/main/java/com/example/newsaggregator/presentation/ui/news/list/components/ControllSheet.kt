@@ -35,6 +35,7 @@ fun ControlSheet(
 ) {
     Text(
         text = stringResource(R.string.title_categories),
+        modifier = Modifier.padding(horizontal = 8.dp),
         style = MaterialTheme.typography.titleLarge
     )
     FlowRow(

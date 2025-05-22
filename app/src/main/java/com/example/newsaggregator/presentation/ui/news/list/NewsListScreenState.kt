@@ -1,8 +1,13 @@
 package com.example.newsaggregator.presentation.ui.news.list
 
-import com.example.newsaggregator.domain.rss.model.RssFeedItem
+import androidx.compose.runtime.Immutable
+import com.example.newsaggregator.domain.rss.model.NewsItem
+import com.example.newsaggregator.presentation.ui.news.list.model.DisplayCategory
 
+@Immutable
 data class NewsListScreenState(
-    val rssFeed: RssFeedItem = RssFeedItem.default(),
-    val isLoading: Boolean = false
+    val displayNews: List<NewsItem> = emptyList(),
+    val isLoading: Boolean = false,
+    val categories: List<DisplayCategory> = emptyList(),
+    val controlSheet: Boolean = false
 )

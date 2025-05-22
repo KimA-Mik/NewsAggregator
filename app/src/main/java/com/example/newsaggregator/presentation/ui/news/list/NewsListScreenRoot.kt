@@ -2,10 +2,15 @@ package com.example.newsaggregator.presentation.ui.news.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
@@ -26,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.newsaggregator.R
 import com.example.newsaggregator.presentation.ui.navigation.SimpleGraph
+import com.example.newsaggregator.presentation.ui.news.list.components.ControlSheet
 import com.example.newsaggregator.presentation.ui.news.list.components.NewsListItem
 import com.example.newsaggregator.presentation.ui.news.list.event.NewsListUiEvent
 import com.example.newsaggregator.presentation.ui.news.list.event.NewsListUserEvent
@@ -82,12 +88,25 @@ fun NewsListScreen(
         }
     }
 
+    when {
+        state.controlSheet -> ControlSheet(
+            categories = state.categories,
+            onDismissRequest = { onEvent(NewsListUserEvent.DismissControlSheet) },
+            onSelectChip = { onEvent(NewsListUserEvent.SelectCategory(it)) },
+        )
+    }
+
     Scaffold(
         modifier = modifier,
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.title_news)) },
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                actions = {
+                    IconButton(onClick = { onEvent(NewsListUserEvent.OpenControlSheet) }) {
+                        Icon(imageVector = Icons.Default.Settings, contentDescription = null)
+                    }
+                }
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }) { padding ->
@@ -97,6 +116,7 @@ fun NewsListScreen(
             modifier = Modifier
                 .padding(padding)
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .fillMaxSize()
         )
     }
 }
@@ -114,17 +134,20 @@ fun NewsListScreenContent(
         modifier = modifier
     ) {
         LazyColumn(
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(
-                items = state.rssFeed.items,
+                items = state.displayNews,
                 key = { it.guid }
             ) {
+                val click =
+                    remember { Modifier.clickable { onEvent(NewsListUserEvent.OpenNews(it.guid)) } }
                 NewsListItem(
                     item = it,
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
-                        .clickable { onEvent(NewsListUserEvent.OpenNews(it.guid)) }
+                        .then(click)
                 )
             }
         }
